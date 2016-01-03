@@ -1,15 +1,13 @@
-# NaturalSort
+# Natural Sort
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/natural_sort`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Natual sorting implementation in Ruby.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'natural_sort'
+gem "natural_sort"
 ```
 
 And then execute:
@@ -22,20 +20,57 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+require "natual_sort"
 
-## Development
+list = ["a10", "a", "a20", "a1b", "a1a", "a2", "a0", "a1"]
+list.sort(&NaturalSort) # => ["a", "a0", "a1", "a1a", "a1b", "a2", "a10", "a20"]
+```
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+```ruby
+UbuntuRelease = Struct.new(:number, :name)
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+ubuntu_releases = [
+  UbuntuRelease.new("9.04", "Jaunty Jackalope"),
+  UbuntuRelease.new("10.10", "Maverick Meerkat"),
+  UbuntuRelease.new("8.10", "Intrepid Ibex"),
+  UbuntuRelease.new("10.04.4", "Lucid Lynx"),
+  UbuntuRelease.new("9.10", "Karmic Koala"),
+]
+
+ubuntu_releases.sort_by { |v| NaturalSort(v.number) }
+# => [
+#   UbuntuRelease.new("8.10", "Intrepid Ibex"),
+#   UbuntuRelease.new("9.04", "Jaunty Jackalope"),
+#   UbuntuRelease.new("9.10", "Karmic Koala"),
+#   UbuntuRelease.new("10.04.4", "Lucid Lynx"),
+#   UbuntuRelease.new("10.10", "Maverick Meerkat")
+# ]
+```
+
+## Refinements
+
+If you're running ruby 2.1 or newer, you can use refinements.
+
+```ruby
+require "natural_sort/refinments"
+
+class MyClass
+  using NatualSort
+
+  list.natural_sort                        # => ["a", "a0", "a1", "a1a"...
+  ubuntu_releases.natual_sort_by(&:number) # => [ UbuntuRelease.new("8.10"...
+end
+```
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/natural_sort.
+Bug reports and pull requests are welcome on GitHub at
+https://github.com/rwz/natural_sort.
 
 
 ## License
 
-The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
+The gem is available as open source under the terms of the [MIT
+License](http://opensource.org/licenses/MIT).
 
