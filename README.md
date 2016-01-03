@@ -1,5 +1,13 @@
 # Natural Sort
 
+[![Build Status](https://api.travis-ci.org/rwz/natural_sort.svg?branch=master)][travis]
+[![Gem Version](http://img.shields.io/gem/v/natural_sort.svg)][gem]
+[![Code Climate](http://img.shields.io/codeclimate/github/rwz/natural_sort.svg)][codeclimate]
+
+[travis]: https://travis-ci.org/rwz/natural_sort
+[gem]: https://rubygems.org/gems/natural_sort
+[codeclimate]: https://codeclimate.com/github/rwz/natural_sort
+
 Natual sorting implementation in Ruby.
 
 ## Installation
