@@ -29,7 +29,7 @@ Or install it yourself as:
 ## Usage
 
 ```ruby
-require "natual_sort"
+require "natural_sort"
 
 list = ["a10", "a", "a20", "a1b", "a1a", "a2", "a0", "a1"]
 list.sort(&NaturalSort) # => ["a", "a0", "a1", "a1a", "a1b", "a2", "a10", "a20"]
@@ -67,7 +67,7 @@ class MyClass
   using NatualSort
 
   list.natural_sort                        # => ["a", "a0", "a1", "a1a"...
-  ubuntu_releases.natual_sort_by(&:number) # => [ UbuntuRelease.new("8.10"...
+  ubuntu_releases.natural_sort_by(&:number) # => [ UbuntuRelease.new("8.10"...
 end
 ```
 
@@ -81,4 +81,3 @@ https://github.com/rwz/natural_sort.
 
 The gem is available as open source under the terms of the [MIT
 License](http://opensource.org/licenses/MIT).
-
