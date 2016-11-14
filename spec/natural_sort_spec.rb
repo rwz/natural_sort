@@ -124,6 +124,11 @@ describe NaturalSort do
       expect(NaturalSort.sort(input)).to eq(expected)
     end
 
+    specify "bang class method" do
+      NaturalSort.sort! input
+      expect(input).to eq(expected)
+    end
+
     specify "module as proc" do
       expect(input.sort(&NaturalSort)).to eq(expected)
     end

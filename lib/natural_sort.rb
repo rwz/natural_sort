@@ -14,6 +14,10 @@ module NaturalSort
     input.sort(&self)
   end
 
+  def sort!(input)
+    input.sort!(&self)
+  end
+
   def compare(a, b)
     SegmentedString.new(a) <=> SegmentedString.new(b)
   end

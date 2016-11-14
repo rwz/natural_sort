@@ -29,10 +29,19 @@ Or install it yourself as:
 ## Usage
 
 ```ruby
-require "natural_sort"
-
 list = ["a10", "a", "a20", "a1b", "a1a", "a2", "a0", "a1"]
 list.sort(&NaturalSort) # => ["a", "a0", "a1", "a1a", "a1b", "a2", "a10", "a20"]
+```
+
+```ruby
+list = ["a10", "a", "a20", "a1b", "a1a", "a2", "a0", "a1"]
+NaturalSort.sort(list)  # => ["a", "a0", "a1", "a1a", "a1b", "a2", "a10", "a20"]
+```
+
+```ruby
+list = ["a10", "a", "a20", "a1b", "a1a", "a2", "a0", "a1"]
+NaturalSort.sort! list  # => ["a", "a0", "a1", "a1a", "a1b", "a2", "a10", "a20"]
+list  # => ["a", "a0", "a1", "a1a", "a1b", "a2", "a10", "a20"]
 ```
 
 ```ruby
