@@ -73,7 +73,7 @@ If you're running ruby 2.1 or newer, you can use refinements.
 require "natural_sort/refinments"
 
 class MyClass
-  using NatualSort
+  using NaturalSort
 
   list.natural_sort                        # => ["a", "a0", "a1", "a1a"...
   ubuntu_releases.natural_sort_by(&:number) # => [ UbuntuRelease.new("8.10"...
