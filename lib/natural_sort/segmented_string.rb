@@ -2,7 +2,7 @@ module NaturalSort
   class SegmentedString
     include Comparable
 
-    TOKENIZER = /\d+(?:\.\d+)?|\D/
+    TOKENIZER = /\d+|\D/
     private_constant :TOKENIZER
 
     attr_reader :input

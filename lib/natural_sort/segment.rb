@@ -2,7 +2,9 @@ module NaturalSort
   class Segment
     include Comparable
 
-    NUMERIC = /\A\d+(?:\.\d+)?\z/
+    # Segments that look like numbers, but start with 0 should be treated as
+    # strings, so that we don't asumme that 1.020 is more than 1.1 cause 20 > 1
+    NUMERIC = /\A[1-9]\d*\z/
     private_constant :NUMERIC
 
     attr_reader :input

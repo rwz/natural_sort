@@ -11,22 +11,87 @@ describe NaturalSort do
 
   describe "sorting" do
     specify "basic" do
-      input    = %w[a10 a a20 a1b a1a a2 a0 a1]
-      expected = %w[a a0 a1 a1a a1b a2 a10 a20]
+      input = %w[
+        a10
+        a
+        a20
+        a1b
+        a1a
+        a2
+        a0
+        a1
+      ]
+
+      expected = %w[
+        a
+        a0
+        a1
+        a1a
+        a1b
+        a2
+        a10
+        a20
+      ]
 
       assert_sorted input, expected
     end
 
-    specify "multiple segments" do
-      input    = %w[x2-g8 x8-y8 x2-y7 x2-y08]
-      expected = %w[x2-g8 x2-y7 x2-y08 x8-y8]
+    specify "multiple alphanum segments" do
+      # It's really quite ambigous if y08 should be sorted before y7 or vice
+      # versa, but since there's no "reference" here, we accept existing
+      # behavior as correct. ¯\_(ツ)_/¯
+      input = %w[
+        x2-g8
+        x8-y8
+        x2-y7
+        x2-y08
+      ]
+
+      expected = %w[
+        x2-g8
+        x2-y08
+        x2-y7
+        x8-y8
+      ]
 
       assert_sorted input, expected
     end
+
+    specify "multiple numeric segments" do
+      input = %w[
+        1.2.3.2
+        1.2.3.10
+        1.2.3.1
+      ]
+
+      expected = %w[
+        1.2.3.1
+        1.2.3.2
+        1.2.3.10
+      ]
+
+      assert_sorted input, expected
+    end
+
 
     specify "floats" do
-      input    = %w[1.010 1.3 1.001 1.02 1.002 1.1]
-      expected = %w[1.001 1.002 1.010 1.02 1.1 1.3]
+      input = %w[
+        1.010
+        1.3
+        1.001
+        1.02
+        1.002
+        1.1
+      ]
+
+      expected = %w[
+        1.001
+        1.002
+        1.010
+        1.02
+        1.1
+        1.3
+      ]
 
       assert_sorted input, expected
     end
@@ -64,15 +129,47 @@ describe NaturalSort do
     end
 
     specify "mixed case" do
-      input =    %w[a b A B]
-      expected = %w[A a B b]
+      input = %w[
+        a
+        b
+        A
+        B
+      ]
+
+      expected = %w[
+        A
+        a
+        B
+        b
+      ]
 
       assert_sorted input, expected
     end
 
     specify "mixed segment types" do
-      input =    %w[a 10 a10 10a a10a a10.a a10.A 10.20a 10.20]
-      expected = %w[10 10a 10.20 10.20a a a10 a10.A a10.a a10a]
+      input = %w[
+        a
+        10
+        a10
+        10a
+        a10a
+        a10.a
+        a10.A
+        10.20a
+        10.20
+      ]
+
+      expected = %w[
+        10
+        10.20
+        10.20a
+        10a
+        a
+        a10
+        a10.A
+        a10.a
+        a10a
+      ]
 
       assert_sorted input, expected
     end
