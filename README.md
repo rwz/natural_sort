@@ -70,7 +70,7 @@ ubuntu_releases.sort_by { |v| NaturalSort(v.number) }
 If you're running ruby 2.1 or newer, you can use refinements.
 
 ```ruby
-require "natural_sort/refinments"
+require "natural_sort/refinements"
 
 class MyClass
   using NaturalSort
