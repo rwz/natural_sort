@@ -224,6 +224,16 @@ describe NaturalSort do
       sorted = input.sort_by { |e| NaturalSort(e) }
       expect(sorted).to eq(expected)
     end
+
+    specify "to_proc returns a two-argument comparator" do
+      expect(NaturalSort.to_proc.call("a2", "a10")).to eq(-1)
+    end
+
+    specify "key returns a comparable Key" do
+      key = NaturalSort.key("a10")
+      expect(key).to be_a(NaturalSort::Key)
+      expect(key).to be < NaturalSort.key("a20")
+    end
   end
 
   describe "value object" do
