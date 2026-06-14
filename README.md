@@ -74,6 +74,11 @@ global method, `NaturalSort.key(value)` does the same thing:
 releases.sort_by { |release| NaturalSort.key(release.number) }
 ```
 
+**Performance.** `NaturalSort.sort` and `sort_by` with a `NaturalSort.key` build
+one key per element; `&NaturalSort` re-splits both strings on every comparison
+(so roughly `n log n` key builds instead of `n`). For large arrays, prefer the
+key-based forms.
+
 ## How it sorts
 
 `NaturalSort` is a faithful port of [Martin Pool's natural-order string
