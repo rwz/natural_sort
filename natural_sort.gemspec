@@ -23,6 +23,6 @@ Gem::Specification.new do |spec|
     "bug_tracker_uri"       => "https://github.com/rwz/natural_sort/issues",
     "rubygems_mfa_required" => "true",
   }
-  spec.files        = Dir["LICENSE.txt", "README.md", "lib/**/**"]
+  spec.files        = Dir["LICENSE.txt", "README.md", "lib/**/*.rb"]
   spec.require_path = "lib"
 end
