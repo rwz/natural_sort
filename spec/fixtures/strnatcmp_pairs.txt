@@ -79,3 +79,27 @@
 "v1.9"	"v1.10"	-1
 "v1.10"	"v1.9"	1
 "1.2.3.2"	"1.2.3.10"	-1
+
+# --- empty strings ---
+""	""	0
+""	"a"	-1
+""	"0"	-1
+"a"	""	1
+"0"	""	1
+
+# --- a lone zero and zero-only runs ---
+"0"	"0"	0
+"0"	"00"	-1
+"00"	"0"	1
+"0"	"1"	-1
+"00"	"1"	-1
+
+# --- a leading plus is text, like minus ---
+"+1"	"1"	-1
+"+1"	"+2"	-1
+"+2"	"+10"	-1
+
+# --- tabs are whitespace, like spaces ---
+"a\tb"	"a b"	0
+"a\tb"	"ab"	0
+"1\t2"	"12"	-1
