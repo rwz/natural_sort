@@ -14,7 +14,7 @@ module NaturalSort
     end
 
     def segments
-      @segments ||= tokens.map { |token| Segment.new(token) }
+      @segments ||= input.scan(TOKENIZER).map { |token| Segment.new(token) }
     end
 
     def <=>(other)
@@ -33,10 +33,6 @@ module NaturalSort
     end
 
     private
-
-    def tokens
-      @tokens ||= input.scan(TOKENIZER)
-    end
 
     def compare_segments(segment, other)
       segment <=> other
