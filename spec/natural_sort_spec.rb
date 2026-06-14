@@ -279,6 +279,29 @@ describe NaturalSort do
     end
   end
 
+  describe "equality and hashing" do
+    it "treats equal keys as interchangeable in Hashes, Sets, and uniq" do
+      a = NaturalSort::Key.new("a10")
+      b = NaturalSort::Key.new("a10")
+      expect(a).to eql(b)
+      expect(a.hash).to eq(b.hash)
+      expect([a, b].uniq.size).to eq(1)
+      expect(Set[a, b].size).to eq(1)
+    end
+
+    it "is eql? to a whitespace-equivalent key, consistent with <=> == 0" do
+      spaced = NaturalSort::Key.new("a 10")
+      tight  = NaturalSort::Key.new("a10")
+      expect(spaced <=> tight).to eq(0)
+      expect(spaced).to eql(tight)
+      expect(spaced.hash).to eq(tight.hash)
+    end
+
+    it "is not eql? to a non-Key" do
+      expect(NaturalSort::Key.new("a10").eql?("a10")).to be(false)
+    end
+  end
+
   describe "edge cases" do
     it "returns an empty array unchanged" do
       expect(NaturalSort.sort([])).to eq([])

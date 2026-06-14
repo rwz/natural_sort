@@ -76,5 +76,19 @@ module NaturalSort
 
       theirs.length > mine.length ? -1 : 0
     end
+
+    # Equal keys (same token list) hash alike and collapse in a Hash, Set, or
+    # #uniq — consistent with #== / #<=>, since segments are equal exactly when
+    # the comparison is 0.
+    #
+    # @return [Boolean]
+    def eql?(other)
+      other.is_a?(Key) && segments == other.segments
+    end
+
+    # @return [Integer]
+    def hash
+      segments.hash
+    end
   end
 end
