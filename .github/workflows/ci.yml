@@ -5,6 +5,13 @@ on:
     branches: [master]
   pull_request:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   test:
     name: Ruby ${{ matrix.ruby }}
@@ -26,3 +33,7 @@ jobs:
           bundler-cache: true
       - run: bundle exec rake
       - run: gem build natural_sort.gemspec
+      - name: Smoke-test the packaged gem
+        run: |
+          gem install ./natural_sort-*.gem
+          ruby -e "require 'natural_sort'; NaturalSort.sort(%w[a10 a2])"
