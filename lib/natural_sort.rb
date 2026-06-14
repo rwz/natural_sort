@@ -17,7 +17,8 @@ module NaturalSort
     method(:compare).to_proc
   end
 
-  # Natural-sorts +input+ into a new array.
+  # Natural-sorts +input+ into a new array. Not stable: elements whose
+  # natural-order keys are equal may be reordered relative to each other.
   #
   # @param input [Enumerable] strings (or any +#to_s+-able values)
   # @return [Array] a new array in natural order
@@ -25,7 +26,7 @@ module NaturalSort
     input.sort_by { |element| Key.new(element) }
   end
 
-  # Natural-sorts +input+ in place.
+  # Natural-sorts +input+ in place. Like {sort}, not stable for equal keys.
   #
   # @param input [Array]
   # @return [Array] +input+ itself, sorted
