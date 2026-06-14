@@ -66,23 +66,65 @@ releases.sort_by { |release| NaturalSort(release.number) }
 `NaturalSort()` is a global helper — a `Kernel` method in the spirit of
 `Integer()` or `Array()`. It lives in a separate file so that requiring the gem
 (or its refinements) never adds a method to every object unless you explicitly
-ask for it with `require "natural_sort/kernel"`.
+ask for it with `require "natural_sort/kernel"`. If you'd rather not add a
+global method, `NaturalSort.key(value)` does the same thing:
+
+```ruby
+releases.sort_by { |release| NaturalSort.key(release.number) }
+```
 
 ## How it sorts
+
+`NaturalSort` is a faithful port of [Martin Pool's natural-order string
+comparison][natsort] — the same algorithm PHP's `strnatcmp` uses. When an
+ordering looks ambiguous, that implementation is the source of truth.
 
 Each string is split into runs of digits and runs of non-digits, then compared
 segment by segment:
 
 - **Numbers compare numerically** — `"a2"` sorts before `"a10"`, and arbitrarily
   large integers compare exactly (no float rounding or overflow).
-- **Letters compare case-insensitively**, with an uppercase letter ordered just
-  before its lowercase twin: `"A"` before `"a"`, but both before `"b"`.
-- **A number with a leading zero is treated as text**, so version- and
-  decimal-like strings order the way you'd expect:
+- **Everything else compares by byte value** (case-sensitive ASCII), so every
+  uppercase letter sorts before every lowercase one.
+- **A digit run with a leading zero is treated as text**, so fraction- and
+  version-like strings order the way you'd expect:
 
   ```ruby
   NaturalSort.sort(%w[1.1 1.02 1.002])  # => ["1.002", "1.02", "1.1"]
   ```
+- **Whitespace is skipped** — it never affects ordering on its own, though it
+  still separates adjacent digit runs.
+
+[natsort]: https://github.com/sourcefrog/natsort
+
+## Surprising cases
+
+Because this matches `strnatcmp` exactly, it inherits a few results that catch
+people off guard — all consequences of the rules above:
+
+```ruby
+# A leading zero makes a number sort like a fraction, so "08" and "09" land
+# BEFORE "1" — not where you'd put the eighth and ninth items.
+NaturalSort.sort(%w[10 08 1 09 2])   # => ["08", "09", "1", "2", "10"]
+NaturalSort.sort(%w[1.5 1.50 1.05])  # => ["1.05", "1.5", "1.50"]
+
+# Whitespace is insignificant, so these compare equal...
+NaturalSort.compare("a b", "ab")     # => 0
+# ...but it still splits a number in two, so "1 0" is [1, 0], not 10:
+NaturalSort.compare("1 0", "10")     # => -1
+
+# Case-sensitive byte order: every uppercase letter sorts before every
+# lowercase one (so "Z" sorts before "a").
+NaturalSort.sort(%w[banana Apple apple Banana])
+# => ["Apple", "Banana", "apple", "banana"]
+```
+
+Want case-insensitive ordering? Normalize your keys:
+
+```ruby
+%w[img10 IMG2 img1].sort_by { |s| NaturalSort.key(s.downcase) }
+# => ["img1", "IMG2", "img10"]
+```
 
 ## Refinements
 

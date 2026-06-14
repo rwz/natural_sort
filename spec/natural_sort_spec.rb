@@ -139,10 +139,12 @@ describe NaturalSort do
         B
       ]
 
+      # Non-digits compare by byte value, so every uppercase letter sorts
+      # before every lowercase one (matches strnatcmp).
       expected = %w[
         A
-        a
         B
+        a
         b
       ]
 
@@ -197,22 +199,15 @@ describe NaturalSort do
       assert_sorted input, expected
     end
 
-    specify "spaces in the middle" do
-      input = [
-        "a 2",
-        "a1",
-        "a 3",
-        "a2"
-      ]
+    specify "whitespace is insignificant (matches strnatcmp)" do
+      # Whitespace is skipped, so "a 2" and "a2" compare equal...
+      expect(NaturalSort.compare("a 2", "a2")).to eq(0)
+      expect(NaturalSort.compare(" a1 ", "a1")).to eq(0)
+      expect(NaturalSort.compare("a  b", "a b")).to eq(0)
 
-      expected = [
-        "a 2",
-        "a 3",
-        "a1",
-        "a2"
-      ]
-
-      assert_sorted input, expected
+      # ...but it still separates adjacent digit runs, so "1 2" is [1, 2],
+      # which sorts before "12".
+      expect(NaturalSort.compare("1 2", "12")).to eq(-1)
     end
   end
 
@@ -247,17 +242,17 @@ describe NaturalSort do
   end
 
   describe "comparison contract" do
-    it "returns nil when compared with a non-SegmentedString" do
-      expect(NaturalSort::SegmentedString.new("a") <=> "a").to be_nil
+    it "returns nil when compared with a non-Key" do
+      expect(NaturalSort::Key.new("a") <=> "a").to be_nil
     end
 
     it "is unequal to other types instead of raising" do
-      expect(NaturalSort::SegmentedString.new("9.04") == 5).to be(false)
+      expect(NaturalSort::Key.new("9.04") == 5).to be(false)
     end
 
     it "three-way compares two wrapped strings" do
-      smaller = NaturalSort::SegmentedString.new("a2")
-      larger  = NaturalSort::SegmentedString.new("a10")
+      smaller = NaturalSort::Key.new("a2")
+      larger  = NaturalSort::Key.new("a10")
       expect(smaller <=> larger).to eq(-1)
     end
   end
@@ -284,6 +279,22 @@ describe NaturalSort do
       frozen = %w[a10 a2 a1].freeze
       expect(NaturalSort.sort(frozen)).to eq(%w[a1 a2 a10])
       expect { NaturalSort.sort!(frozen) }.to raise_error(FrozenError)
+    end
+  end
+
+  describe "strnatcmp conformance" do
+    # Pinned to Martin Pool's strnatcmp (https://github.com/sourcefrog/natsort),
+    # the same algorithm PHP's strnatcmp implements. The fixture holds
+    # "a<TAB>b<TAB>sign" triples generated from the reference; NaturalSort must
+    # reproduce every sign. See the fixture header for how to regenerate it.
+    fixture = File.readlines(File.expand_path("fixtures/strnatcmp_pairs.txt", __dir__), chomp: true)
+    fixture.reject! { |line| line.empty? || line.start_with?("#") }
+
+    fixture.each do |line|
+      a, b, sign = line.split("\t")
+      it "compare(#{a.inspect}, #{b.inspect}) == #{sign}" do
+        expect(NaturalSort.compare(a, b) <=> 0).to eq(sign.to_i)
+      end
     end
   end
 end

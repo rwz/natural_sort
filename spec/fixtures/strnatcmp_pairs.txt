@@ -1,0 +1,53 @@
+# strnatcmp conformance fixture — tab-separated  a<TAB>b<TAB>sign  (sign: -1, 0, 1).
+# Generated from Martin Pool's reference strnatcmp:
+#   https://github.com/sourcefrog/natsort  (the algorithm PHP's strnatcmp implements)
+# NaturalSort.compare(a, b) must reproduce every sign. Do not edit by hand.
+a2	a10	-1
+a10	a2	1
+2	10	-1
+10	9	1
+file9	file10	-1
+file10	file9	1
+01333	0400	-1
+0400	0401	-1
+08	1	-1
+09	1	-1
+007	7	-1
+05	5	-1
+010	10	-1
+1.002	1.02	-1
+1.1	1.02	1
+1.5	1.50	-1
+1.05	1.5	-1
+1.010	1.02	-1
+123456789012345678901234567890	123456789012345678901234567897	-1
+100000000000000000001	100000000000000000000	1
+-2	-10	-1
+-10	-2	1
+a b	ab	0
+1 0	10	-1
+ a1	a1	0
+a1 	a1	0
+a  b	a b	0
+a 2	a2	0
+1 2	12	-1
+A	a	-1
+Z	a	-1
+B	a	-1
+a	B	1
+Apple	apple	-1
+banana	Banana	1
+a10a	a10	1
+a10	a10a	-1
+10a	10	1
+a10.A	a10.a	-1
+10.20a	10.20	1
+a	a0	-1
+a	a1	-1
+a1	a1a	-1
+a2	a2	0
+1.0	1.0	0
+v1.0	v1.0	0
+v1.9	v1.10	-1
+v1.10	v1.9	1
+1.2.3.2	1.2.3.10	-1
