@@ -348,14 +348,17 @@ describe NaturalSort do
 
   describe "strnatcmp conformance" do
     # Pinned to Martin Pool's strnatcmp (https://github.com/sourcefrog/natsort),
-    # the same algorithm PHP's strnatcmp implements. The fixture holds
-    # "a<TAB>b<TAB>sign" triples generated from the reference; NaturalSort must
-    # reproduce every sign. See the fixture header for how to regenerate it.
+    # the same algorithm PHP's strnatcmp implements. Each row is
+    # dumped_a<TAB>dumped_b<TAB>sign, where the two strings are String#dump
+    # literals; NaturalSort must reproduce every sign. Regenerate the fixture with
+    # script/regen_strnatcmp_fixture.rb (see its header).
     fixture = File.readlines(File.expand_path("fixtures/strnatcmp_pairs.txt", __dir__), chomp: true)
     fixture.reject! { |line| line.empty? || line.start_with?("#") }
 
     fixture.each do |line|
-      a, b, sign = line.split("\t")
+      dumped_a, dumped_b, sign = line.split("\t")
+      a = dumped_a.undump
+      b = dumped_b.undump
       it "compare(#{a.inspect}, #{b.inspect}) == #{sign}" do
         expect(NaturalSort.compare(a, b) <=> 0).to eq(sign.to_i)
       end
