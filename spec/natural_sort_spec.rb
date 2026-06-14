@@ -288,6 +288,25 @@ describe NaturalSort do
     end
   end
 
+  describe "malformed and non-ASCII input" do
+    it "tokenizes invalid byte sequences by byte instead of raising" do
+      # Latin-1 "é" (0xE9) mislabeled as UTF-8 — an invalid UTF-8 sequence.
+      mojibake = "caf\xe9".dup.force_encoding("UTF-8")
+      expect { NaturalSort.key(mojibake) }.not_to raise_error
+      expect(NaturalSort.sort([mojibake, "cafe"])).to eq(["cafe", mojibake])
+    end
+
+    it "handles ASCII-incompatible encodings without raising" do
+      expect { NaturalSort.key("abc123".encode("UTF-16LE")) }.not_to raise_error
+    end
+
+    it "orders valid UTF-8 by byte value (which equals codepoint order)" do
+      # "é" is 0xC3 0xA9; its lead byte exceeds every ASCII byte, so it sorts
+      # after "ay"/"az".
+      assert_sorted ["az", "ay", "aé"], ["ay", "az", "aé"]
+    end
+  end
+
   describe "strnatcmp conformance" do
     # Pinned to Martin Pool's strnatcmp (https://github.com/sourcefrog/natsort),
     # the same algorithm PHP's strnatcmp implements. The fixture holds

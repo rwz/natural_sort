@@ -10,6 +10,11 @@ module NaturalSort
   # become Integers (compared by value); everything else — text, and digit runs
   # with a leading zero — stays a String (compared by byte value). Whitespace is
   # skipped. This reproduces Martin Pool's strnatcmp ordering.
+  #
+  # Splitting runs over the raw bytes, so any input sorts by byte value rather
+  # than raising — including malformed encodings (e.g. Latin-1 bytes mislabeled
+  # UTF-8) and ASCII-incompatible ones (UTF-16/UTF-32). For valid UTF-8, byte
+  # order and codepoint order agree, so this changes ordering for no one.
   class Key
     include Comparable
 
@@ -22,7 +27,7 @@ module NaturalSort
 
     def initialize(input)
       @input = input.to_s
-      @segments = @input.scan(TOKENIZER).filter_map do |token|
+      @segments = @input.b.scan(TOKENIZER).filter_map do |token|
         if token.match?(WHITESPACE)
           nil
         elsif NUMERIC.match?(token)
