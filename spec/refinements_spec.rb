@@ -25,6 +25,14 @@ describe "NaturalSort refinements" do
       hash = { "a10" => 1, "a2" => 2, "a1" => 3 }
       expect(hash.natural_sort).to eq([["a1", 3], ["a2", 2], ["a10", 1]])
     end
+
+    it "orders by key alone — values never influence the order" do
+      # "a1" and "a 1" compare equal (whitespace is insignificant), so only the
+      # key may decide their order. Flipping the values must not flip the order.
+      one = { "a1" => 2, "a 1" => 1 }
+      two = { "a1" => 1, "a 1" => 2 }
+      expect(one.natural_sort.map(&:first)).to eq(two.natural_sort.map(&:first))
+    end
   end
 
   describe "#natural_sort_by" do
