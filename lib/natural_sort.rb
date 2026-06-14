@@ -5,15 +5,16 @@ require "natural_sort/version"
 module NaturalSort
   module_function
 
-  autoload :Segment,         "natural_sort/segment"
-  autoload :SegmentedString, "natural_sort/segmented_string"
+  autoload :Key, "natural_sort/key"
 
   # Comparator proc, so the module itself works as a sort block:
-  # +list.sort(&NaturalSort)+.
+  # +list.sort(&NaturalSort)+. Prefer +sort+ or +sort_by { NaturalSort.key(x) }+
+  # when speed matters — those build one key per element instead of one per
+  # comparison.
   #
   # @return [Proc] a two-argument comparator returning -1, 0, or 1
   def to_proc
-    lambda(&method(:compare))
+    method(:compare).to_proc
   end
 
   # Natural-sorts +input+ into a new array.
@@ -21,7 +22,7 @@ module NaturalSort
   # @param input [Enumerable] strings (or any +#to_s+-able values)
   # @return [Array] a new array in natural order
   def sort(input)
-    input.sort_by { |element| SegmentedString.new(element) }
+    input.sort_by { |element| Key.new(element) }
   end
 
   # Natural-sorts +input+ in place.
@@ -29,7 +30,7 @@ module NaturalSort
   # @param input [Array]
   # @return [Array] +input+ itself, sorted
   def sort!(input)
-    input.sort_by! { |element| SegmentedString.new(element) }
+    input.sort_by! { |element| Key.new(element) }
   end
 
   # Three-way natural-order comparison of two values (each coerced via +#to_s+).
@@ -38,6 +39,14 @@ module NaturalSort
   # @param b [#to_s]
   # @return [Integer] -1, 0, or 1
   def compare(a, b)
-    SegmentedString.new(a) <=> SegmentedString.new(b)
+    Key.new(a) <=> Key.new(b)
+  end
+
+  # The comparable sort key for +value+, for use as a +sort_by+ key.
+  #
+  # @param value [#to_s]
+  # @return [NaturalSort::Key]
+  def key(value)
+    Key.new(value)
   end
 end
