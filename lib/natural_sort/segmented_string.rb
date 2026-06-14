@@ -16,7 +16,7 @@ module NaturalSort
     end
 
     def <=>(other)
-      raise ArgumentError unless SegmentedString === other
+      return nil unless SegmentedString === other
 
       other_segments = other.segments
 
