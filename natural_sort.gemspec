@@ -8,6 +8,7 @@ Gem::Specification.new do |spec|
   spec.summary      = "Natural sorting support for Ruby"
   spec.homepage     = "https://github.com/rwz/natural_sort"
   spec.license      = "MIT"
+  spec.required_ruby_version = ">= 3.3"
   spec.files        = Dir["LICENSE.txt", "README.md", "lib/**/**"]
   spec.require_path = "lib"
 end
