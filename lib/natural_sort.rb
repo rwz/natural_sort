@@ -22,7 +22,3 @@ module NaturalSort
     SegmentedString.new(a) <=> SegmentedString.new(b)
   end
 end
-
-def NaturalSort(input)
-  NaturalSort::SegmentedString.new(input)
-end

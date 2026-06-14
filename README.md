@@ -43,9 +43,12 @@ NaturalSort.sort!(list)  # same, but sorts `list` in place and returns it
 list.sort(&NaturalSort)  # NaturalSort works directly as the comparison block
 ```
 
-To sort by a derived value, wrap it with the `NaturalSort()` helper:
+To sort by a derived value, opt into the `NaturalSort()` helper and use it as a
+`sort_by` key:
 
 ```ruby
+require "natural_sort/kernel"
+
 UbuntuRelease = Struct.new(:number, :name)
 
 releases = [
@@ -59,6 +62,11 @@ releases = [
 releases.sort_by { |release| NaturalSort(release.number) }
 # => 8.10, 9.04, 9.10, 10.04.4, 10.10
 ```
+
+`NaturalSort()` is a global helper — a `Kernel` method in the spirit of
+`Integer()` or `Array()`. It lives in a separate file so that requiring the gem
+(or its refinements) never adds a method to every object unless you explicitly
+ask for it with `require "natural_sort/kernel"`.
 
 ## How it sorts
 

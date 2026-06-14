@@ -10,7 +10,7 @@ module NaturalSort
 
       def natural_sort_by
         to_a.sort_by do |element|
-          NaturalSort(yield(element))
+          NaturalSort::SegmentedString.new(yield(element))
         end
       end
     end

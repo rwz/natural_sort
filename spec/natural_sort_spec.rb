@@ -1,4 +1,5 @@
 require "spec_helper"
+require "natural_sort/kernel"
 
 describe NaturalSort do
   it "has a version number" do
