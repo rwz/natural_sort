@@ -236,4 +236,20 @@ describe NaturalSort do
       expect(sorted).to eq(expected)
     end
   end
+
+  describe "comparison contract" do
+    it "returns nil when compared with a non-SegmentedString" do
+      expect(NaturalSort::SegmentedString.new("a") <=> "a").to be_nil
+    end
+
+    it "is unequal to other types instead of raising" do
+      expect(NaturalSort::SegmentedString.new("9.04") == 5).to be(false)
+    end
+
+    it "three-way compares two wrapped strings" do
+      smaller = NaturalSort::SegmentedString.new("a2")
+      larger  = NaturalSort::SegmentedString.new("a10")
+      expect(smaller <=> larger).to eq(-1)
+    end
+  end
 end
