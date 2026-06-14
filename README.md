@@ -158,6 +158,12 @@ using NaturalSort
 releases.natural_sort_by(&:number)   # => sorted by version number
 ```
 
+## Versioning
+
+This project follows [Semantic Versioning](https://semver.org). The sort order
+itself is part of the public API: any change to how strings are ordered is a
+breaking change and ships only in a major release.
+
 ## Contributing
 
 Bug reports and pull requests are welcome at
