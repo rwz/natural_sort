@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "natural_sort"
 
 # Conversion-style helper (in the spirit of Integer()/Array()): wraps +input+
