@@ -41,5 +41,19 @@ describe "NaturalSort refinements" do
       releases = [release.new("9.10"), release.new("9.04"), release.new("10.04")]
       expect(releases.natural_sort_by(&:number).map(&:number)).to eq(%w[9.04 9.10 10.04])
     end
+
+    it "sorts a Set by the derived value" do
+      expect(Set["a10", "a2", "a1"].natural_sort_by { |s| s }).to eq(%w[a1 a2 a10])
+    end
+
+    it "yields [key, value] pairs to the block for a Hash" do
+      hash = { "a10" => 1, "a2" => 2, "a1" => 3 }
+      expect(hash.natural_sort_by { |key, _value| key }).to eq([["a1", 3], ["a2", 2], ["a10", 1]])
+    end
+
+    it "can sort a Hash by its value" do
+      hash = { "x" => "a10", "y" => "a2", "z" => "a1" }
+      expect(hash.natural_sort_by { |_key, value| value }).to eq([["z", "a1"], ["y", "a2"], ["x", "a10"]])
+    end
   end
 end
