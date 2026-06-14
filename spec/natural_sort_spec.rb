@@ -225,8 +225,15 @@ describe NaturalSort do
     end
 
     specify "bang class method" do
-      NaturalSort.sort! input
+      result = NaturalSort.sort!(input)
+      expect(result).to equal(input)
       expect(input).to eq(expected)
+    end
+
+    specify "compare returns -1, 0, or 1" do
+      expect(NaturalSort.compare("a2", "a10")).to eq(-1)
+      expect(NaturalSort.compare("a10", "a2")).to eq(1)
+      expect(NaturalSort.compare("a2", "a2")).to eq(0)
     end
 
     specify "module as proc" do
