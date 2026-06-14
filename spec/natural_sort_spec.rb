@@ -4,8 +4,8 @@ require "spec_helper"
 require "natural_sort/kernel"
 
 describe NaturalSort do
-  it "has a version number" do
-    expect(NaturalSort::VERSION).not_to be_nil
+  it "has a SemVer version number" do
+    expect(NaturalSort::VERSION).to match(/\A\d+\.\d+\.\d+\z/)
   end
 
   def assert_sorted(input, expected)
@@ -54,7 +54,6 @@ describe NaturalSort do
 
       assert_sorted input, expected
     end
-
 
     specify "floats" do
       input = %w[
