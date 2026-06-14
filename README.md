@@ -6,7 +6,7 @@
 [ci]: https://github.com/rwz/natural_sort/actions/workflows/ci.yml
 [gem]: https://rubygems.org/gems/natural_sort
 
-Natual sorting implementation in Ruby.
+Natural sorting implementation in Ruby.
 
 ## Installation
 
