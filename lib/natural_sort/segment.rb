@@ -21,7 +21,7 @@ module NaturalSort
 
     def <=>(other)
       if numeric? && other.numeric?
-        Rational(input) <=> Rational(other.to_s)
+        Integer(input) <=> Integer(other.to_s)
       else
         compare_chars(input, other.to_s)
       end
