@@ -11,11 +11,11 @@ module NaturalSort
   end
 
   def sort(input)
-    input.sort(&self)
+    input.sort_by { |element| SegmentedString.new(element) }
   end
 
   def sort!(input)
-    input.sort!(&self)
+    input.sort_by! { |element| SegmentedString.new(element) }
   end
 
   def compare(a, b)
