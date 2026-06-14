@@ -171,4 +171,5 @@ https://github.com/rwz/natural_sort.
 
 ## License
 
-Available as open source under the terms of the [MIT License](LICENSE.txt).
+Available as open source under the terms of the
+[MIT License](https://github.com/rwz/natural_sort/blob/main/LICENSE.txt).
