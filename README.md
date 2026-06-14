@@ -101,6 +101,11 @@ segment by segment:
 - **Whitespace is skipped** — it never affects ordering on its own, though it
   still separates adjacent digit runs.
 
+Comparison is byte-based and not locale-aware: non-ASCII bytes sort by byte
+value (for valid UTF-8, that's the same as codepoint order), and malformed or
+non-ASCII-compatible input — UTF-16, stray bytes — is ordered by byte rather
+than raising.
+
 [natsort]: https://github.com/sourcefrog/natsort
 
 ## Surprising cases
