@@ -247,6 +247,22 @@ describe NaturalSort do
     end
   end
 
+  describe "value object" do
+    it "is frozen and keeps its token list internal" do
+      key = NaturalSort::Key.new("a10")
+      expect(key).to be_frozen
+      expect(key).not_to respond_to(:segments)
+      expect(key).not_to respond_to(:input)
+    end
+
+    it "snapshots its input rather than aliasing a mutable string" do
+      str = +"a10"
+      key = NaturalSort::Key.new(str)
+      str << "0"
+      expect(key.to_s).to eq("a10")
+    end
+  end
+
   describe "comparison contract" do
     it "returns nil when compared with a non-Key" do
       expect(NaturalSort::Key.new("a") <=> "a").to be_nil

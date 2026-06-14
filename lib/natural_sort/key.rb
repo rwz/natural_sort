@@ -23,10 +23,12 @@ module NaturalSort
     WHITESPACE = /\A\s+\z/
     private_constant :TOKENIZER, :NUMERIC, :WHITESPACE
 
-    attr_reader :input, :segments
+    # Internal: the token list. Protected so #<=> can read another Key's
+    # segments without exposing the (changeable) token format as public API.
+    protected attr_reader :segments
 
     def initialize(input)
-      @input = input.to_s
+      @input = input.to_s.dup.freeze
       @segments = @input.b.scan(TOKENIZER).filter_map do |token|
         if token.match?(WHITESPACE)
           nil
@@ -35,7 +37,8 @@ module NaturalSort
         else
           token
         end
-      end
+      end.freeze
+      freeze
     end
 
     def to_s
