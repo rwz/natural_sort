@@ -254,4 +254,29 @@ describe NaturalSort do
       expect(smaller <=> larger).to eq(-1)
     end
   end
+
+  describe "edge cases" do
+    it "returns an empty array unchanged" do
+      expect(NaturalSort.sort([])).to eq([])
+    end
+
+    it "returns a single-element array unchanged" do
+      expect(NaturalSort.sort(["only"])).to eq(["only"])
+    end
+
+    it "leaves an already-sorted array in order" do
+      sorted = %w[a a1 a2 a10]
+      expect(NaturalSort.sort(sorted)).to eq(sorted)
+    end
+
+    it "keeps equal keys together" do
+      expect(NaturalSort.sort(%w[a a A])).to eq(%w[A a a])
+    end
+
+    it "sorts a frozen array but raises FrozenError on sort!" do
+      frozen = %w[a10 a2 a1].freeze
+      expect(NaturalSort.sort(frozen)).to eq(%w[a1 a2 a10])
+      expect { NaturalSort.sort!(frozen) }.to raise_error(FrozenError)
+    end
+  end
 end
