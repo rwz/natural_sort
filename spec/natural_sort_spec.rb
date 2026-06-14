@@ -99,6 +99,12 @@ describe NaturalSort do
       assert_sorted input, expected
     end
 
+    specify "leading-zero numbers compare as text, not by value" do
+      # "01333" sorts before "0400" and "0401": leading-zero runs compare by
+      # byte value, so '1' < '4' wins even though 1333 > 400.
+      assert_sorted %w[0400 01333 0401], %w[01333 0400 0401]
+    end
+
     specify "bignums" do
       input = %w[
         123456789012345678901234567895

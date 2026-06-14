@@ -108,6 +108,10 @@ people off guard — all consequences of the rules above:
 NaturalSort.sort(%w[10 08 1 09 2])   # => ["08", "09", "1", "2", "10"]
 NaturalSort.sort(%w[1.5 1.50 1.05])  # => ["1.05", "1.5", "1.50"]
 
+# Among themselves, leading-zero numbers compare as text, so "01333" sorts
+# BEFORE "0400" and "0401" — '1' beats '4' even though 1333 > 400.
+NaturalSort.sort(%w[0400 01333 0401])  # => ["01333", "0400", "0401"]
+
 # Whitespace is insignificant, so these compare equal...
 NaturalSort.compare("a b", "ab")     # => 0
 # ...but it still splits a number in two, so "1 0" is [1, 0], not 10:
