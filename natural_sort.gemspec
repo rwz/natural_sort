@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = ">= 3.3"
   spec.metadata = {
     "homepage_uri"          => spec.homepage,
-    "source_code_uri"       => "https://github.com/rwz/natural_sort",
+    "source_code_uri"       => "https://github.com/rwz/natural_sort/tree/v#{NaturalSort::VERSION}",
     "bug_tracker_uri"       => "https://github.com/rwz/natural_sort/issues",
     "rubygems_mfa_required" => "true",
   }
