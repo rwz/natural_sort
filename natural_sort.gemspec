@@ -8,9 +8,21 @@ Gem::Specification.new do |spec|
   spec.authors      = ["Pavel Pravosud"]
   spec.email        = ["pavel@pravosud.com"]
   spec.summary      = "Natural sorting support for Ruby"
+  spec.description  = <<~DESC
+    Natural-sort ordering for Ruby: split strings into digit and non-digit
+    runs and compare numerically, so "a2" sorts before "a10". Plugs into
+    Ruby's own sort methods, with optional Array/Hash/Set refinements and an
+    opt-in NaturalSort() helper.
+  DESC
   spec.homepage     = "https://github.com/rwz/natural_sort"
   spec.license      = "MIT"
   spec.required_ruby_version = ">= 3.3"
+  spec.metadata = {
+    "homepage_uri"          => spec.homepage,
+    "source_code_uri"       => "https://github.com/rwz/natural_sort",
+    "bug_tracker_uri"       => "https://github.com/rwz/natural_sort/issues",
+    "rubygems_mfa_required" => "true",
+  }
   spec.files        = Dir["LICENSE.txt", "README.md", "lib/**/**"]
   spec.require_path = "lib"
 end
