@@ -43,8 +43,9 @@ NaturalSort.sort!(list)  # same, but sorts `list` in place and returns it
 list.sort(&NaturalSort)  # NaturalSort works directly as the comparison block
 ```
 
-To sort by a derived value, opt into the `NaturalSort()` helper and use it as a
-`sort_by` key:
+`sort(&NaturalSort)` works because the module is a *comparator*. To sort by a
+*derived* value you want a *key* instead — `NaturalSort.key(x)`, or the
+`NaturalSort()` helper — for `sort_by`, `min_by`, and friends:
 
 ```ruby
 require "natural_sort/kernel"
