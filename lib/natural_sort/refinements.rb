@@ -1,3 +1,4 @@
+require "natural_sort"
 require "set"
 
 module NaturalSort
