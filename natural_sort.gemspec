@@ -21,8 +21,9 @@ Gem::Specification.new do |spec|
     "homepage_uri"          => spec.homepage,
     "source_code_uri"       => "https://github.com/rwz/natural_sort/tree/v#{NaturalSort::VERSION}",
     "bug_tracker_uri"       => "https://github.com/rwz/natural_sort/issues",
+    "changelog_uri"         => "https://github.com/rwz/natural_sort/blob/main/CHANGELOG.md",
     "rubygems_mfa_required" => "true",
   }
-  spec.files        = Dir["LICENSE.txt", "README.md", "lib/**/*.rb"]
+  spec.files        = Dir["LICENSE.txt", "README.md", "CHANGELOG.md", "lib/**/*.rb"]
   spec.require_path = "lib"
 end
