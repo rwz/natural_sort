@@ -70,6 +70,11 @@ GROUPS = [
   ]],
   ["tabs are whitespace, like spaces", [
     ["a\tb", "a b"], ["a\tb", "ab"], ["1\t2", "12"]
+  ]],
+  # Consecutive pairs that fix the total order x2-g8 < x2-y08 < x2-y7 < x8-y8.
+  # The y08-vs-y7 step was once called ambiguous; it is reference-defined.
+  ["multi-segment alphanumerics", [
+    ["x2-g8", "x2-y08"], ["x2-y08", "x2-y7"], ["x2-y7", "x8-y8"]
   ]]
 ].freeze
 

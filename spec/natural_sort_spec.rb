@@ -39,27 +39,6 @@ describe NaturalSort do
       assert_sorted input, expected
     end
 
-    specify "multiple alphanum segments" do
-      # It's really quite ambigous if y08 should be sorted before y7 or vice
-      # versa, but since there's no "reference" here, we accept existing
-      # behavior as correct. ¯\_(ツ)_/¯
-      input = %w[
-        x2-g8
-        x8-y8
-        x2-y7
-        x2-y08
-      ]
-
-      expected = %w[
-        x2-g8
-        x2-y08
-        x2-y7
-        x8-y8
-      ]
-
-      assert_sorted input, expected
-    end
-
     specify "multiple numeric segments" do
       input = %w[
         1.2.3.2

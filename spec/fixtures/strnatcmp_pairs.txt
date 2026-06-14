@@ -103,3 +103,8 @@
 "a\tb"	"a b"	0
 "a\tb"	"ab"	0
 "1\t2"	"12"	-1
+
+# --- multi-segment alphanumerics ---
+"x2-g8"	"x2-y08"	-1
+"x2-y08"	"x2-y7"	-1
+"x2-y7"	"x8-y8"	-1
