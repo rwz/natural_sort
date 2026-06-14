@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require "natural_sort"
-require "set"
 
 module NaturalSort
   [Array, Hash, Set].each do |klass|
