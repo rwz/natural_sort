@@ -28,9 +28,14 @@ module NaturalSort
 
   # Natural-sorts +input+ in place. Like {sort}, not stable for equal keys.
   #
-  # @param input [Array]
+  # @param input [Array] (or anything with +#sort_by!+)
   # @return [Array] +input+ itself, sorted
+  # @raise [ArgumentError] when +input+ cannot be sorted in place
   def sort!(input)
+    unless input.respond_to?(:sort_by!)
+      raise ArgumentError, "sort! needs an Array (or anything with #sort_by!); use sort for other enumerables"
+    end
+
     input.sort_by! { |element| Key.new(element) }
   end
 
